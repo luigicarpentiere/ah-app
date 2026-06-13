@@ -7,6 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>*{box-sizing:border-box;margin:0;padding:0}body{background:#F5F9FF}</style>
 </head>
 <body>
@@ -72,7 +73,7 @@ const PIANI={
     piano_pasti:[
       {giorno:"Lunedì",pranzo:{proteina:"Filetti di pollo AH (vaschetta fresca)",contorno:"Busta broccoli a cimette AH",tempP:"200°C · 12 min",tempC:"190°C · 10 min",note:"Doppio cestello. Olio spray + paprika. Gira il pollo a metà."},cena:{proteina:"Filetti di salmone AH (vaschetta fresca)",contorno:"Busta asparagi puliti AH",tempP:"180°C · 10 min",tempC:"190°C · 8 min",note:"Doppio cestello. Il salmone non va girato."}},
       {giorno:"Martedì",pranzo:{proteina:"Uova (4) sode + ceci barattolo AH",contorno:"Busta spinaci baby AH",tempP:"130°C · 15 min (uova)",tempC:"— freddo",note:"Uova in AF. Ceci e spinaci freddi a lato."},cena:{proteina:"Bistecca di manzo AH (vaschetta fresca)",contorno:"Busta mix verdure grigliate AH",tempP:"220°C · 8 min",tempC:"195°C · 10 min",note:"Avvia verdure 2 min prima. Gira bistecca a 4 min."}},
-      {giorno:"Mercoledì",pranzo:{proteina:"Pollo marinato AH (vaschetta già marinata)",contorno:"Busta fagiolini AH già puliti",tempP:"200°C · 14 min",tempC:"185°C · 10 min",note:"Doppio cestello. Il pollo marinato non va condito."},cena:{proteina:"Filetti di merluzzo AH (vaschetta fresca)",contorno:"Busta zucchine a rondelle AH",tempP:"180°C · 10 min",tempC:"185°C · 10 min",note:"Doppio cestello in parallelo."}},
+      {giorno:"Mercoledì",pranzo:{proteina:"Wrap AH con pollo marinato e gouda",contorno:"Busta mix peperoni e cipolle AH",tempP:"180°C · 4 min (wrap chiuso)",tempC:"190°C · 8 min (verdure prima)",note:"Scalda verdure in AF, farcisci wrap con pollo + gouda a fette + verdure, chiudi a pacchetto e AF 4 min. Croccante e filante."},cena:{proteina:"Filetti di merluzzo AH (vaschetta fresca)",contorno:"Busta zucchine a rondelle AH",tempP:"180°C · 10 min",tempC:"185°C · 10 min",note:"Doppio cestello in parallelo."}},
       {giorno:"Giovedì",pranzo:{proteina:"Uova (3) strapazzate in cocottina",contorno:"Busta mix peperoni e cipolle AH",tempP:"160°C · 8 min",tempC:"190°C · 12 min",note:"Avvia verdure 4 min prima della cocottina."},cena:{proteina:"Burger di manzo AH (vaschetta, già formati)",contorno:"Busta broccoli a cimette AH",tempP:"200°C · 10 min",tempC:"190°C · 10 min",note:"Doppio cestello. Gira burger a 5 min."}},
       {giorno:"Venerdì",pranzo:{proteina:"Cosce di pollo disossate AH (vaschetta)",contorno:"Busta carote a bastoncino AH",tempP:"200°C · 18 min",tempC:"190°C · 12 min",note:"Avvia pollo 6 min prima delle carote."},cena:{proteina:"Gamberetti freschi sgusciati AH (vaschetta)",contorno:"Busta asparagi puliti AH",tempP:"200°C · 6 min",tempC:"190°C · 8 min",note:"Avvia asparagi 2 min prima. Gamberetti velocissimi."}},
       {giorno:"Sabato",pranzo:{proteina:"Fagioli bianchi barattolo + uova (3) sode",contorno:"Busta pomodorini datterini AH",tempP:"130°C · 15 min (uova)",tempC:"180°C · 8 min",note:"Uova e pomodorini in AF. Fagioli freddi a lato."},cena:{proteina:"Costolette maiale marinate AH (vaschetta)",contorno:"Busta mix verdure mediterranee AH",tempP:"190°C · 20 min",tempC:"190°C · 12 min",note:"Avvia costolette 8 min prima delle verdure."}},
@@ -115,6 +116,8 @@ const PIANI={
         {nome:"Olio spray AH",quantita:"200ml",prezzo_stimato:"2.49",bonus:false,note:"indispensabile",rtc:false},
         {nome:"Paprika affumicata AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
         {nome:"Salsa di soia AH",quantita:"150ml",prezzo_stimato:"1.49",bonus:false,note:"",rtc:false},
+        {nome:"AH Wraps naturali",quantita:"6 pz",prezzo_stimato:"1.99",bonus:false,note:"per wrap mercoledì",rtc:true},
+        {nome:"Gouda a fette AH",quantita:"150g",prezzo_stimato:"1.79",bonus:false,note:"per wrap",rtc:true},
       ]},
     ],
     info_nutrizionali:{calorie_giornaliere_stimate:"1800-2100",proteine:"alta (130-160g)",carboidrati:"media",grassi:"bassa"},
@@ -125,7 +128,7 @@ const PIANI={
     piano_pasti:[
       {giorno:"Lunedì",pranzo:{proteina:"Filetti di pollo AH (vaschetta fresca)",contorno:"Busta asparagi puliti AH",tempP:"200°C · 12 min",tempC:"190°C · 8 min",note:"Doppio cestello. Olio spray + sale."},cena:{proteina:"Salmone filetti AH (vaschetta fresca)",contorno:"Busta broccoli a cimette AH",tempP:"180°C · 10 min",tempC:"190°C · 10 min",note:"Doppio cestello in parallelo."}},
       {giorno:"Martedì",pranzo:{proteina:"Uova (4) in cocottina con feta",contorno:"Busta spinaci baby AH",tempP:"160°C · 10 min",tempC:"160°C · 5 min",note:"Spinaci solo ultimi 5 min. Feta sbriciolata."},cena:{proteina:"Bistecca di manzo AH (vaschetta fresca)",contorno:"Busta fagiolini AH",tempP:"220°C · 8 min",tempC:"185°C · 10 min",note:"Avvia fagiolini 2 min prima."}},
-      {giorno:"Mercoledì",pranzo:{proteina:"Gamberetti freschi sgusciati AH",contorno:"Busta zucchine a rondelle AH",tempP:"200°C · 6 min",tempC:"185°C · 10 min",note:"Avvia zucchine 4 min prima."},cena:{proteina:"Pollo marinato AH (vaschetta già marinata)",contorno:"Busta mix peperoni e cipolle AH",tempP:"200°C · 14 min",tempC:"190°C · 12 min",note:"Doppio cestello."}},
+      {giorno:"Mercoledì",pranzo:{proteina:"Wrap AH volkoren con salmone e feta",contorno:"Busta spinaci baby AH",tempP:"180°C · 4 min (wrap chiuso)",tempC:"— freddo",note:"Farcisci wrap con salmone fresco + feta + spinaci, chiudi e AF 4 min. Croccante fuori, filante dentro."},cena:{proteina:"Pollo marinato AH (vaschetta già marinata)",contorno:"Busta mix peperoni e cipolle AH",tempP:"200°C · 14 min",tempC:"190°C · 12 min",note:"Doppio cestello."}},
       {giorno:"Giovedì",pranzo:{proteina:"Merluzzo filetti AH (vaschetta fresca)",contorno:"Busta asparagi puliti AH",tempP:"180°C · 10 min",tempC:"190°C · 8 min",note:"Doppio cestello in parallelo."},cena:{proteina:"Uova (3) sode + ceci barattolo AH",contorno:"Busta spinaci baby AH",tempP:"130°C · 15 min (uova)",tempC:"— freddo",note:"Spinaci e ceci freddi a lato."}},
       {giorno:"Venerdì",pranzo:{proteina:"Burger di manzo AH (vaschetta, già formati)",contorno:"Busta broccoli a cimette AH",tempP:"200°C · 10 min",tempC:"190°C · 10 min",note:"Doppio cestello. Gira burger a 5 min."},cena:{proteina:"Salmone filetti AH (vaschetta fresca)",contorno:"Busta fagiolini AH",tempP:"180°C · 10 min",tempC:"185°C · 10 min",note:"Doppio cestello in parallelo."}},
       {giorno:"Sabato",pranzo:{proteina:"Cosce pollo disossate AH (vaschetta)",contorno:"Busta carote a bastoncino AH",tempP:"200°C · 18 min",tempC:"190°C · 12 min",note:"Avvia pollo 6 min prima."},cena:{proteina:"Costolette maiale marinate AH (vaschetta)",contorno:"Busta mix verdure mediterranee AH",tempP:"190°C · 20 min",tempC:"190°C · 12 min",note:"Avvia costolette 8 min prima."}},
@@ -164,6 +167,7 @@ const PIANI={
       {categoria:"Dispensa Air Fryer",prodotti:[
         {nome:"Olio spray AH",quantita:"200ml",prezzo_stimato:"2.49",bonus:false,note:"indispensabile",rtc:false},
         {nome:"Paprika affumicata AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
+        {nome:"AH Wraps volkoren",quantita:"4 pz",prezzo_stimato:"1.99",bonus:false,note:"per wrap mercoledì",rtc:true},
       ]},
     ],
     info_nutrizionali:{calorie_giornaliere_stimate:"1600-1900",proteine:"alta",carboidrati:"molto bassa (<50g/giorno)",grassi:"alta"},
@@ -174,7 +178,7 @@ const PIANI={
     piano_pasti:[
       {giorno:"Lunedì",pranzo:{proteina:"Uova (4) frittata in cocottina con feta",contorno:"Busta zucchine a rondelle AH",tempP:"160°C · 12 min",tempC:"185°C · 10 min",note:"Doppio cestello. Feta sbriciolata sopra."},cena:{proteina:"Ceci barattolo AH croccanti in AF",contorno:"Busta mix peperoni e cipolle AH",tempP:"200°C · 15 min",tempC:"190°C · 12 min",note:"Scola e asciuga bene i ceci. Olio spray + cumino."}},
       {giorno:"Martedì",pranzo:{proteina:"Uova (3) sode + fagioli bianchi barattolo",contorno:"Busta spinaci baby AH",tempP:"130°C · 15 min (uova)",tempC:"— freddo",note:"Spinaci e fagioli freddi."},cena:{proteina:"Uova (4) in cocottina con verdure",contorno:"Busta asparagi puliti AH",tempP:"160°C · 10 min",tempC:"190°C · 8 min",note:"Doppio cestello."}},
-      {giorno:"Mercoledì",pranzo:{proteina:"Lenticchie barattolo + uova (2) sode",contorno:"Busta pomodorini datterini AH",tempP:"130°C · 15 min (uova)",tempC:"180°C · 8 min",note:"Pomodorini in AF, lenticchie e uova a lato."},cena:{proteina:"Ceci barattolo croccanti con paprika",contorno:"Busta broccoli a cimette AH",tempP:"200°C · 15 min",tempC:"190°C · 10 min",note:"Doppio cestello."}},
+      {giorno:"Mercoledì",pranzo:{proteina:"Wrap AH con feta, spinaci e uovo sodo",contorno:"Busta pomodorini datterini AH",tempP:"180°C · 4 min (wrap chiuso)",tempC:"180°C · 8 min",note:"Farcisci wrap con feta sbriciolata + spinaci freschi + uovo sodo a fette, chiudi e AF 4 min. Gouda alternativo alla feta."},cena:{proteina:"Ceci barattolo croccanti con paprika",contorno:"Busta broccoli a cimette AH",tempP:"200°C · 15 min",tempC:"190°C · 10 min",note:"Doppio cestello."}},
       {giorno:"Giovedì",pranzo:{proteina:"Uova (4) frittata con feta in cocottina",contorno:"Busta fagiolini AH",tempP:"160°C · 12 min",tempC:"185°C · 10 min",note:"Doppio cestello in parallelo."},cena:{proteina:"Fagioli bianchi barattolo croccanti in AF",contorno:"Busta mix verdure mediterranee AH",tempP:"200°C · 12 min",tempC:"190°C · 12 min",note:"Scola bene i fagioli. Olio spray + rosmarino."}},
       {giorno:"Venerdì",pranzo:{proteina:"Uova (3) sode + ceci barattolo",contorno:"Busta carote a bastoncino AH",tempP:"130°C · 15 min (uova)",tempC:"190°C · 12 min",note:"Carote in AF, uova e ceci a lato."},cena:{proteina:"Uova (4) in cocottina con spinaci e feta",contorno:"Busta pomodorini datterini AH",tempP:"160°C · 12 min",tempC:"180°C · 8 min",note:"Doppio cestello."}},
       {giorno:"Sabato",pranzo:{proteina:"Lenticchie barattolo + uova (2) sode",contorno:"Busta mix peperoni e cipolle AH",tempP:"130°C · 15 min (uova)",tempC:"190°C · 12 min",note:"Verdure in AF, lenticchie e uova a lato."},cena:{proteina:"Ceci croccanti + feta sbriciolata",contorno:"Busta asparagi puliti AH",tempP:"200°C · 15 min",tempC:"190°C · 8 min",note:"Doppio cestello."}},
@@ -206,6 +210,8 @@ const PIANI={
         {nome:"Olio spray AH",quantita:"200ml",prezzo_stimato:"2.49",bonus:false,note:"indispensabile",rtc:false},
         {nome:"Cumino macinato AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"per ceci croccanti",rtc:false},
         {nome:"Paprika affumicata AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
+        {nome:"AH Wraps naturali",quantita:"4 pz",prezzo_stimato:"1.99",bonus:false,note:"per wrap mercoledì",rtc:true},
+        {nome:"Gouda a fette AH",quantita:"150g",prezzo_stimato:"1.79",bonus:false,note:"",rtc:true},
       ]},
     ],
     info_nutrizionali:{calorie_giornaliere_stimate:"1600-1900",proteine:"media (65-85g)",carboidrati:"media",grassi:"media"},
@@ -216,7 +222,7 @@ const PIANI={
     piano_pasti:[
       {giorno:"Lunedì",pranzo:{proteina:"Ceci barattolo AH croccanti con paprika",contorno:"Busta broccoli a cimette AH",tempP:"200°C · 15 min",tempC:"190°C · 10 min",note:"Doppio cestello. Scola e asciuga bene i ceci."},cena:{proteina:"Lenticchie barattolo in cocottina con pomodori",contorno:"Busta mix peperoni e cipolle AH",tempP:"170°C · 10 min (cocottina)",tempC:"190°C · 12 min",note:"Avvia verdure, aggiungi cocottina con lenticchie."}},
       {giorno:"Martedì",pranzo:{proteina:"Fagioli neri barattolo croccanti in AF",contorno:"Busta zucchine a rondelle AH",tempP:"200°C · 12 min",tempC:"185°C · 10 min",note:"Fagioli con cumino e olio spray."},cena:{proteina:"Ceci barattolo con curry in AF",contorno:"Busta asparagi puliti AH",tempP:"200°C · 15 min",tempC:"190°C · 8 min",note:"Ceci con curry. Doppio cestello."}},
-      {giorno:"Mercoledì",pranzo:{proteina:"Lenticchie barattolo fredde + avocado",contorno:"Busta spinaci baby AH",tempP:"— freddo",tempC:"— freddo",note:"Pasto completamente freddo. Velocissimo."},cena:{proteina:"Fagioli bianchi barattolo croccanti con rosmarino",contorno:"Busta mix verdure mediterranee AH",tempP:"200°C · 12 min",tempC:"190°C · 12 min",note:"Doppio cestello."}},
+      {giorno:"Mercoledì",pranzo:{proteina:"Wrap AH con hummus, ceci croccanti e verdure",contorno:"Busta mix peperoni e cipolle AH",tempP:"180°C · 4 min (wrap chiuso)",tempC:"190°C · 8 min (verdure prima)",note:"Scalda verdure, spalma hummus sul wrap + ceci croccanti + verdure, chiudi e AF 4 min. Zero prodotti animali."},cena:{proteina:"Fagioli bianchi barattolo croccanti con rosmarino",contorno:"Busta mix verdure mediterranee AH",tempP:"200°C · 12 min",tempC:"190°C · 12 min",note:"Doppio cestello."}},
       {giorno:"Giovedì",pranzo:{proteina:"Ceci barattolo con cumino e limone",contorno:"Busta carote a bastoncino AH",tempP:"200°C · 15 min",tempC:"190°C · 12 min",note:"Doppio cestello in parallelo."},cena:{proteina:"Lenticchie barattolo in cocottina con pomodorini",contorno:"Busta broccoli a cimette AH",tempP:"175°C · 12 min (cocottina)",tempC:"190°C · 10 min",note:"Broccoli nel 2° cestello."}},
       {giorno:"Venerdì",pranzo:{proteina:"Fagioli neri barattolo + avocado freddo",contorno:"Busta pomodorini datterini AH",tempP:"180°C · 8 min (pomodorini)",tempC:"— freddo",note:"Pomodorini in AF, resto freddo."},cena:{proteina:"Ceci croccanti con paprika affumicata",contorno:"Busta fagiolini AH",tempP:"200°C · 15 min",tempC:"185°C · 10 min",note:"Doppio cestello."}},
       {giorno:"Sabato",pranzo:{proteina:"Lenticchie + fagioli bianchi freddi",contorno:"Busta mix peperoni e cipolle AH",tempP:"190°C · 12 min (verdure)",tempC:"— freddo",note:"Verdure in AF, legumi freddi a lato."},cena:{proteina:"Fagioli bianchi croccanti con aglio e origano",contorno:"Busta asparagi puliti AH",tempP:"200°C · 12 min",tempC:"190°C · 8 min",note:"Doppio cestello."}},
@@ -246,6 +252,8 @@ const PIANI={
         {nome:"Curry in polvere AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
         {nome:"Cumino macinato AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
         {nome:"Paprika affumicata AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
+        {nome:"AH Wraps naturali",quantita:"4 pz",prezzo_stimato:"1.99",bonus:false,note:"per wrap mercoledì",rtc:true},
+        {nome:"Hummus AH",quantita:"200g",prezzo_stimato:"1.49",bonus:false,note:"farcitura wrap",rtc:true},
       ]},
     ],
     info_nutrizionali:{calorie_giornaliere_stimate:"1600-1850",proteine:"media (60-75g)",carboidrati:"alta",grassi:"bassa"},
@@ -256,7 +264,7 @@ const PIANI={
     piano_pasti:[
       {giorno:"Lunedì",pranzo:{proteina:"Pollo marinato AH (vaschetta già marinata)",contorno:"Busta mix verdure mediterranee AH",tempP:"200°C · 14 min",tempC:"190°C · 12 min",note:"Doppio cestello. Il pollo marinato ha già erbe e olio EVO."},cena:{proteina:"Salmone filetti AH (vaschetta fresca)",contorno:"Busta zucchine a rondelle AH",tempP:"180°C · 10 min",tempC:"185°C · 10 min",note:"Doppio cestello. Origano sulle zucchine."}},
       {giorno:"Martedì",pranzo:{proteina:"Uova (4) frittata con feta in cocottina",contorno:"Busta pomodorini datterini AH",tempP:"160°C · 12 min",tempC:"180°C · 8 min",note:"Doppio cestello. Olive a freddo a lato."},cena:{proteina:"Cosce pollo disossate AH (vaschetta fresca)",contorno:"Busta mix peperoni e cipolle AH",tempP:"200°C · 18 min",tempC:"190°C · 12 min",note:"Avvia pollo 6 min prima. Olio EVO spray."}},
-      {giorno:"Mercoledì",pranzo:{proteina:"Ceci barattolo AH con limone e paprika",contorno:"Busta spinaci baby AH + feta",tempP:"200°C · 15 min",tempC:"— freddo",note:"Ceci croccanti in AF, spinaci e feta freddi."},cena:{proteina:"Gamberetti freschi sgusciati AH (vaschetta)",contorno:"Busta asparagi puliti AH",tempP:"200°C · 6 min",tempC:"190°C · 8 min",note:"Avvia asparagi 2 min prima."}},
+      {giorno:"Mercoledì",pranzo:{proteina:"Wrap AH con gamberetti, feta e verdure mediterranee",contorno:"Busta mix verdure mediterranee AH",tempP:"180°C · 4 min (wrap chiuso)",tempC:"190°C · 8 min (verdure prima)",note:"Scalda verdure, farcisci wrap con gamberetti + feta + verdure + origano, chiudi e AF 4 min. Profumo mediterraneo."},cena:{proteina:"Gamberetti freschi sgusciati AH (vaschetta)",contorno:"Busta asparagi puliti AH",tempP:"200°C · 6 min",tempC:"190°C · 8 min",note:"Avvia asparagi 2 min prima."}},
       {giorno:"Giovedì",pranzo:{proteina:"Merluzzo filetti AH (vaschetta fresca)",contorno:"Busta mix verdure mediterranee AH",tempP:"180°C · 10 min",tempC:"190°C · 12 min",note:"Doppio cestello. Origano + olio EVO spray."},cena:{proteina:"Uova (3) sode + fagioli bianchi barattolo",contorno:"Busta pomodorini datterini AH",tempP:"130°C · 15 min (uova)",tempC:"180°C · 8 min",note:"Pomodorini in AF, uova e fagioli a lato."}},
       {giorno:"Venerdì",pranzo:{proteina:"Costolette maiale marinate AH (vaschetta)",contorno:"Busta zucchine a rondelle AH",tempP:"190°C · 20 min",tempC:"185°C · 10 min",note:"Avvia costolette 10 min prima. Gira a metà."},cena:{proteina:"Salmone filetti AH (vaschetta fresca)",contorno:"Busta asparagi puliti AH",tempP:"180°C · 10 min",tempC:"190°C · 8 min",note:"Doppio cestello in parallelo."}},
       {giorno:"Sabato",pranzo:{proteina:"Gamberetti freschi sgusciati AH (vaschetta)",contorno:"Busta mix peperoni e cipolle AH",tempP:"200°C · 6 min",tempC:"190°C · 12 min",note:"Avvia verdure 6 min prima."},cena:{proteina:"Pollo marinato AH (vaschetta già marinata)",contorno:"Busta fagiolini AH",tempP:"200°C · 14 min",tempC:"185°C · 10 min",note:"Doppio cestello. Olio EVO spray sui fagiolini."}},
@@ -293,6 +301,7 @@ const PIANI={
         {nome:"Olio EVO spray AH",quantita:"200ml",prezzo_stimato:"2.99",bonus:false,note:"indispensabile",rtc:false},
         {nome:"Olive nere AH (vaschetta)",quantita:"200g",prezzo_stimato:"1.99",bonus:false,note:"",rtc:true},
         {nome:"Origano secco AH",quantita:"15g",prezzo_stimato:"0.99",bonus:false,note:"",rtc:false},
+        {nome:"AH Wraps naturali",quantita:"4 pz",prezzo_stimato:"1.99",bonus:false,note:"per wrap mercoledì",rtc:true},
       ]},
     ],
     info_nutrizionali:{calorie_giornaliere_stimate:"1800-2100",proteine:"media-alta",carboidrati:"media",grassi:"media (grassi buoni)"},
@@ -303,7 +312,7 @@ const PIANI={
     piano_pasti:[
       {giorno:"Lunedì",pranzo:{proteina:"Uova (3) strapazzate in cocottina",contorno:"Busta mix verdure AH (offerta)",tempP:"160°C · 8 min",tempC:"190°C · 10 min",note:"Avvia verdure 2 min prima della cocottina."},cena:{proteina:"Ceci barattolo AH croccanti con paprika",contorno:"Busta broccoli a cimette AH",tempP:"200°C · 15 min",tempC:"190°C · 10 min",note:"Doppio cestello. Proteina più economica."}},
       {giorno:"Martedì",pranzo:{proteina:"Fagioli bianchi barattolo + uova (2) sode",contorno:"Busta spinaci baby AH",tempP:"130°C · 15 min (uova)",tempC:"— freddo",note:"Pasto express. Tutto freddo tranne le uova."},cena:{proteina:"Cosce di pollo AH (vaschetta, taglio economico)",contorno:"Busta carote a bastoncino AH",tempP:"200°C · 22 min",tempC:"190°C · 12 min",note:"Avvia pollo 10 min prima. Taglio più economico."}},
-      {giorno:"Mercoledì",pranzo:{proteina:"Uova (3) frittata in cocottina + lenticchie",contorno:"Busta pomodorini datterini AH",tempP:"160°C · 10 min",tempC:"180°C · 8 min",note:"Lenticchie fredde a lato. Doppio cestello."},cena:{proteina:"Ceci + fagioli misti barattolo croccanti",contorno:"Busta mix peperoni e cipolle AH",tempP:"200°C · 15 min",tempC:"190°C · 12 min",note:"Mix legumi con cumino. Doppio cestello."}},
+      {giorno:"Mercoledì",pranzo:{proteina:"Wrap AH con uova strapazzate e gouda",contorno:"Busta mix peperoni e cipolle AH",tempP:"180°C · 4 min (wrap chiuso)",tempC:"190°C · 8 min (verdure prima)",note:"Scalda verdure, strapazza 2 uova in cocottina, farcisci wrap con uova + gouda + verdure, chiudi e AF 4 min. Economico e ottimo."},cena:{proteina:"Ceci + fagioli misti barattolo croccanti",contorno:"Busta mix peperoni e cipolle AH",tempP:"200°C · 15 min",tempC:"190°C · 12 min",note:"Mix legumi con cumino. Doppio cestello."}},
       {giorno:"Giovedì",pranzo:{proteina:"Uova (3) sode + fagioli bianchi barattolo",contorno:"Busta fagiolini AH",tempP:"130°C · 15 min (uova)",tempC:"185°C · 10 min",note:"Fagiolini in AF, uova e fagioli a lato."},cena:{proteina:"Cosce di pollo AH (avanzi riscaldati)",contorno:"Busta broccoli a cimette AH",tempP:"180°C · 8 min (riscaldo)",tempC:"190°C · 10 min",note:"Riscalda le cosce di ieri. Broccoli freschi."}},
       {giorno:"Venerdì",pranzo:{proteina:"Lenticchie barattolo + uova (2) sode",contorno:"Busta spinaci baby AH",tempP:"130°C · 15 min (uova)",tempC:"— freddo",note:"Pasto express tutto freddo tranne le uova."},cena:{proteina:"Ceci barattolo con curry economico",contorno:"Busta carote a bastoncino AH",tempP:"200°C · 15 min",tempC:"190°C · 12 min",note:"Doppio cestello. Curry + olio spray."}},
       {giorno:"Sabato",pranzo:{proteina:"Uova (4) frittata con lenticchie in cocottina",contorno:"Busta mix verdure mediterranee AH",tempP:"160°C · 12 min",tempC:"190°C · 12 min",note:"Lenticchie nella cocottina con le uova."},cena:{proteina:"Cosce di pollo AH (vaschetta fresca)",contorno:"Busta zucchine a rondelle AH",tempP:"200°C · 22 min",tempC:"185°C · 10 min",note:"Aggiungi zucchine negli ultimi 10 min."}},
@@ -336,6 +345,8 @@ const PIANI={
         {nome:"Paprika affumicata AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
         {nome:"Cumino macinato AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
         {nome:"Curry in polvere AH",quantita:"40g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:false},
+        {nome:"AH Wraps naturali",quantita:"4 pz",prezzo_stimato:"1.99",bonus:false,note:"per wrap mercoledì",rtc:true},
+        {nome:"Gouda a fette AH",quantita:"100g",prezzo_stimato:"1.29",bonus:false,note:"",rtc:true},
       ]},
     ],
     info_nutrizionali:{calorie_giornaliere_stimate:"1600-1900",proteine:"media",carboidrati:"media-alta",grassi:"bassa"},
@@ -355,71 +366,42 @@ function scalaPerPersone(piano,np,nd){
 // ── GENERA PDF LISTA SPESA via finestra di stampa ─────────────────────────────
 function apriStampaLista(result,goal,people,days){
   const righe=result.lista_spesa.map(cat=>`
-    <div class="cat-header">${cat.categoria.toUpperCase()}</div>
+    <div style="background:#E8F0F8;color:#00A0E2;font-size:9px;font-weight:700;letter-spacing:1px;padding:5px 8px;margin:10px 0 4px;text-transform:uppercase">${cat.categoria.toUpperCase()}</div>
     ${cat.prodotti.map(p=>`
-      <div class="item-row">
-        <div class="checkbox"></div>
-        <div class="item-info">
-          <div class="item-name">${p.nome}${p.rtc?'<span class="tag-rtc">RTC</span>':''}${p.bonus?'<span class="tag-bonus">BONUS</span>':''}</div>
-          <div class="item-detail">${p.quantita}${p.note?' · '+p.note:''}</div>
+      <div style="display:flex;align-items:flex-start;padding:5px 0;border-bottom:1px solid #DDE8F5;gap:8px">
+        <div style="width:11px;height:11px;border:1.5px solid #00A0E2;border-radius:2px;flex-shrink:0;margin-top:1px"></div>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:10px">${p.nome}${p.rtc?'<span style="background:#E0F2FE;color:#00A0E2;font-size:7px;font-weight:700;padding:1px 4px;border-radius:4px;margin-left:4px">RTC</span>':''}${p.bonus?'<span style="background:#F97316;color:white;font-size:7px;font-weight:700;padding:1px 4px;border-radius:4px;margin-left:3px">BONUS</span>':''}</div>
+          <div style="font-size:9px;color:#6B7280;margin-top:1px">${p.quantita}${p.note?' · '+p.note:''}</div>
         </div>
-        <div class="item-price">€${p.prezzo_stimato}</div>
+        <div style="font-weight:700;color:#2D8C4E;font-size:10px;white-space:nowrap">€${p.prezzo_stimato}</div>
       </div>`).join('')}`).join('');
 
-  const html=`<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8">
-<title>AH Lista Spesa</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#1A1A2E;padding:0}
-  .header{background:linear-gradient(135deg,#003882,#00A0E2);color:white;padding:16px 20px;margin-bottom:16px}
-  .ah{background:white;color:#00A0E2;font-weight:900;font-size:14px;padding:2px 7px;border-radius:4px;display:inline-block;margin-right:8px}
-  .h-title{font-size:16px;font-weight:700;display:inline}
-  .h-sub{font-size:9px;opacity:0.85;margin-top:4px}
-  .h-rtc{font-size:9px;opacity:0.8;margin-top:2px}
-  .body{padding:0 20px}
-  .cat-header{background:#E8F0F8;color:#00A0E2;font-size:8px;font-weight:700;letter-spacing:1px;padding:5px 8px;margin:12px 0 4px;text-transform:uppercase}
-  .item-row{display:flex;align-items:flex-start;padding:6px 0;border-bottom:1px solid #DDE8F5;gap:8px}
-  .checkbox{width:12px;height:12px;border:1.5px solid #00A0E2;border-radius:2px;flex-shrink:0;margin-top:1px}
-  .item-info{flex:1}
-  .item-name{font-weight:600;font-size:10px}
-  .item-detail{font-size:9px;color:#6B7280;margin-top:1px}
-  .item-price{font-weight:700;color:#2D8C4E;font-size:10px;white-space:nowrap}
-  .tag-rtc{background:#E0F2FE;color:#00A0E2;font-size:7px;font-weight:700;padding:1px 4px;border-radius:4px;margin-left:4px}
-  .tag-bonus{background:#F97316;color:white;font-size:7px;font-weight:700;padding:1px 4px;border-radius:4px;margin-left:3px}
-  .total-bar{background:#003882;color:white;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin:16px 20px 0;border-radius:8px}
-  .total-label{font-size:10px;opacity:0.8}
-  .total-amount{font-size:18px;font-weight:900}
-  .consiglio{background:#F0F7FF;color:#003882;font-size:9px;padding:8px 14px;margin:10px 20px;border-radius:6px;line-height:1.5}
-  @media print{@page{margin:1cm}button{display:none!important}.no-print{display:none}}
-</style></head><body>
-<div class="no-print" style="background:#003882;color:white;padding:10px 20px;display:flex;justify-content:space-between;align-items:center">
-  <span style="font-weight:700">Lista della Spesa · Albert Heijn</span>
-  <button onclick="window.print()" style="background:#00A0E2;color:white;border:none;padding:6px 16px;border-radius:6px;font-weight:700;cursor:pointer">🖨️ Stampa / Salva PDF</button>
-</div>
-<div class="header">
-  <div><span class="ah">ah</span><span class="h-title">Lista della Spesa · Albert Heijn</span></div>
-  <div class="h-sub">${goal} · ${people} persona${people>1?'e':''} · ${days} giorni · Air Fryer Ready-to-Cook</div>
-  <div class="h-rtc">✂ Tutti i prodotti freschi, già porzionati e puliti — pronti per il cestello</div>
-</div>
-<div class="body">${righe}</div>
-<div class="total-bar">
-  <span class="total-label">Totale stimato · ${days} giorni · ${people} persona${people>1?'e':''}</span>
-  <span class="total-amount">€${result.totale_stimato}</span>
-</div>
-<div class="consiglio">💡 ${result.consigli}</div>
-</body></html>`;
-
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url; a.download='AH_Lista_Spesa.html';
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  const el=document.createElement('div');
+  el.style.cssText='font-family:Helvetica,Arial,sans-serif;font-size:11px;color:#1A1A2E;padding:20px;width:180mm';
+  el.innerHTML=`
+    <div style="background:linear-gradient(135deg,#003882,#00A0E2);color:white;padding:14px 16px;margin-bottom:14px;border-radius:6px">
+      <div style="font-size:14px;font-weight:700">🛒 Lista della Spesa · Albert Heijn</div>
+      <div style="font-size:9px;opacity:0.85;margin-top:3px">${goal} · ${people} persona${people>1?'e':''} · ${days} giorni · Air Fryer Ready-to-Cook</div>
+      <div style="font-size:8px;opacity:0.8;margin-top:2px">✂ Prodotti freschi, già porzionati, pronti per il cestello</div>
+    </div>
+    ${righe}
+    <div style="background:#003882;color:white;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:14px;border-radius:6px">
+      <span style="font-size:10px;opacity:0.8">Totale · ${days} giorni · ${people} persona${people>1?'e':''}</span>
+      <span style="font-size:16px;font-weight:900">€${result.totale_stimato}</span>
+    </div>
+    <div style="background:#F0F7FF;color:#003882;font-size:8px;padding:8px 12px;margin-top:10px;border-radius:6px;line-height:1.5">💡 ${result.consigli}</div>`;
+  document.body.appendChild(el);
+  html2pdf().set({
+    margin:10,
+    filename:'AH_Lista_Spesa.pdf',
+    image:{type:'jpeg',quality:0.98},
+    html2canvas:{scale:2,useCORS:true},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+  }).from(el).save().then(()=>document.body.removeChild(el));
 }
 
-// ── GENERA PDF PIANO PASTI via finestra di stampa ─────────────────────────────
-function apriStampaPiani(result,goal,people,days){
+apriStampaPiani(result,goal,people,days){
   const giorni=result.piano_pasti.map(g=>`
     <div class="day-card">
       <div class="day-bar">${g.giorno}</div>
@@ -540,7 +522,7 @@ function App(){
         <div style={S.card}>
           <label style={S.label}>Obiettivo alimentare</label>
           <div style={S.chipRow}>
-            {GOALS.map(g=><div key={g} style={S.chip(goal===g)} onClick={()=>setGoal(goal===g?"":g)}>{g}</div>)}
+            {GOALS.map(g=><div key={g} style={S.chip(goal===g)} onClick={()=>{setGoal(goal===g?"":g);setResult(null);}}>{g}</div>)}
           </div>
           <div style={{marginTop:"14px"}}>
             <label style={S.label}>Note (allergie, preferenze)</label>
@@ -550,13 +532,223 @@ function App(){
             <div style={{flex:1}}>
               <label style={S.label}>Persone</label>
               <div style={S.chipRow}>
-                {PEOPLE.map(p=><div key={p} style={S.chip(people===p)} onClick={()=>setPeople(p)}>{p} pers.</div>)}
+                {PEOPLE.map(p=><div key={p} style={S.chip(people===p)} onClick={()=>{setPeople(p);setResult(null);}}>{p} pers.</div>)}
               </div>
             </div>
             <div style={{flex:1}}>
               <label style={S.label}>Giorni</label>
               <div style={S.chipRow}>
-                {DAYS_OPT.map(d=><div key={d} style={S.chip(days===d)} onClick={()=>setDays(d)}>{d} giorni</div>)}
+                {DAYS_OPT.map(d=><div key={d} style={S.chip(days===d)} onClick={()=>{setDays(d);setResult(null);}}>{d} giorni</div>)}
+              </div>
+            </div>
+          </div>
+          <div style={{marginTop:"14px"}}>
+            <button style={{...S.btn,...(!goal?{opacity:0.5,cursor:"not-allowed"}:{})}} onClick={handleGenerate} disabled={!goal}>
+              Genera piano e lista della spesa →
+            </button>
+          </div>
+          <div style={S.rtcNote}>✂️ Solo prodotti freschi già porzionati e puliti — niente coltello, niente tagliere.</div>
+        </div>
+
+        {result&&(
+          <>
+            {/* PULSANTI PDF */}
+            <div style={S.card}>
+              <div style={S.sectionTitle}>📄 Scarica PDF</div>
+              <div style={S.pdfRow}>
+                <button style={S.btnPDF(AH_DARK)}
+                  onClick={()=>apriStampaLista(result,goal,parseInt(people),parseInt(days))}>
+                  🛒 PDF Lista della Spesa
+                </button>
+                <button style={S.btnPDF(AH_BLUE)}
+                  onClick={()=>apriStampaPiani(result,goal,parseInt(people),parseInt(days))}>
+                  🌬️ PDF Piano Pasti AF
+                </button>
+              </div>
+              <div style={{fontSize:"10px",color:GRAY,marginTop:"8px"}}>
+                Scarica il file HTML → aprilo nel browser → usa Stampa (Cmd+P / Ctrl+P) → Salva come PDF
+              </div>
+            </div>
+
+            {/* PIANO PASTI */}
+            <div style={S.card}>
+              <div style={S.sectionTitle}>🌬️ Piano Pasti Air Fryer · {days} giorni</div>
+              {result.piano_pasti.map((g,i)=>(
+                <div key={i} style={S.afCard}>
+                  <div style={S.afDayBar}>{g.giorno}</div>
+                  <div style={S.afMealRow}>
+                    {["pranzo","cena"].map((tipo,ti)=>(
+                      <div key={tipo} style={S.afHalf(ti===0)}>
+                        <div style={S.afMealLabel}>{tipo==="pranzo"?"🌞 Pranzo":"🌙 Cena"}</div>
+                        <div style={S.afProt}>🔖 {g[tipo].proteina}</div>
+                        <div style={S.afCont}>🌿 {g[tipo].contorno}</div>
+                        <div style={S.afTimes}>
+                          <span style={{color:AH_BLUE}}>⏱ P: {g[tipo].tempP}</span><br/>
+                          <span style={{color:GREEN}}>⏱ C: {g[tipo].tempC}</span>
+                        </div>
+                        {g[tipo].note&&<div style={S.afNote}>→ {g[tipo].note}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* LISTA SPESA */}
+            <div style={S.card}>
+              <div style={S.sectionTitle}>🛒 Lista della spesa · Albert Heijn</div>
+              {result.lista_spesa.map((cat,i)=>(
+                <div key={i} style={S.catBlock}>
+                  <div style={S.catLabel}>{cat.categoria}</div>
+                  {cat.prodotti.map((p,j)=>(
+                    <div key={j} style={S.itemRow}>
+                      <div style={{flex:1}}>
+                        <div style={S.itemName}>
+                          {p.nome}
+                          {p.bonus&&<span style={S.bonusBadge}>BONUS</span>}
+                          {p.rtc&&<span style={S.rtcTag}>✂️ RTC</span>}
+                        </div>
+                        <div style={S.itemDetail}>{p.quantita}{p.note?` · ${p.note}`:""}</div>
+                      </div>
+                      <div style={S.itemPrice}>€{p.prezzo_stimato}</div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              <div style={S.totalBar}>
+                <div style={S.totalLabel}>Totale · {days} giorni · {people} persona{people==="1"?"":"e"}</div>
+                <div style={S.totalAmount}>€{result.totale_stimato}</div>
+              </div>
+            </div>
+
+            {/* NUTRI */}
+            {result.info_nutrizionali&&(
+              <div style={S.card}>
+                <div style={S.sectionTitle}>🥗 Profilo nutrizionale</div>
+                <div style={{fontSize:"12px",color:GRAY,marginBottom:"6px"}}>
+                  Calorie: <strong style={{color:AH_DARK}}>{result.info_nutrizionali.calorie_giornaliere_stimate} kcal/giorno</strong>
+                </div>
+                <div style={S.nutriRow}>
+                  <div style={S.nutriChip(nc(result.info_nutrizionali.proteine))}>Proteine: {result.info_nutrizionali.proteine}</div>
+                  <div style={S.nutriChip(nc(result.info_nutrizionali.carboidrati))}>Carboidrati: {result.info_nutrizionali.carboidrati}</div>
+                  <div style={S.nutriChip(nc(result.info_nutrizionali.grassi))}>Grassi: {result.info_nutrizionali.grassi}</div>
+                </div>
+                {result.consigli&&<div style={S.consiglio}>💡 {result.consigli}</div>}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const root=ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</htmlfunction apriStampaPiani(result,goal,people,days){
+  const giorni=result.piano_pasti.map((g,idx)=>`
+    <div style="margin-bottom:8px;border:1px solid #E8F0F8;border-radius:6px;overflow:hidden">
+      <div style="background:#003882;color:white;padding:5px 10px;font-size:10px;font-weight:700">${g.giorno}</div>
+      <div style="display:flex">
+        <div style="flex:1;padding:8px 10px;background:#F0F7FF;border-right:1px solid #E8F0F8">
+          <div style="font-size:8px;font-weight:700;color:#00A0E2;text-transform:uppercase;margin-bottom:3px">☀ PRANZO</div>
+          <div style="font-size:9px;font-weight:600;margin-bottom:2px;line-height:1.3">🔖 ${g.pranzo.proteina}</div>
+          <div style="font-size:9px;color:#374151;margin-bottom:4px;line-height:1.3">🌿 ${g.pranzo.contorno}</div>
+          <div style="font-size:8px;line-height:1.7"><span style="color:#00A0E2;font-weight:600">⏱ P: ${g.pranzo.tempP}</span><br><span style="color:#2D8C4E;font-weight:600">⏱ C: ${g.pranzo.tempC}</span></div>
+          ${g.pranzo.note?`<div style="font-size:8px;color:#F97316;font-style:italic;margin-top:3px;line-height:1.3">→ ${g.pranzo.note}</div>`:''}
+        </div>
+        <div style="flex:1;padding:8px 10px;background:#E8F0F8">
+          <div style="font-size:8px;font-weight:700;color:#00A0E2;text-transform:uppercase;margin-bottom:3px">☽ CENA</div>
+          <div style="font-size:9px;font-weight:600;margin-bottom:2px;line-height:1.3">🔖 ${g.cena.proteina}</div>
+          <div style="font-size:9px;color:#374151;margin-bottom:4px;line-height:1.3">🌿 ${g.cena.contorno}</div>
+          <div style="font-size:8px;line-height:1.7"><span style="color:#00A0E2;font-weight:600">⏱ P: ${g.cena.tempP}</span><br><span style="color:#2D8C4E;font-weight:600">⏱ C: ${g.cena.tempC}</span></div>
+          ${g.cena.note?`<div style="font-size:8px;color:#F97316;font-style:italic;margin-top:3px;line-height:1.3">→ ${g.cena.note}</div>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+
+  const ni=result.info_nutrizionali;
+  const el=document.createElement('div');
+  el.style.cssText='font-family:Helvetica,Arial,sans-serif;font-size:11px;color:#1A1A2E;padding:20px;width:180mm';
+  el.innerHTML=`
+    <div style="background:linear-gradient(135deg,#00A0E2,#003882);color:white;padding:14px 16px;margin-bottom:12px;border-radius:6px">
+      <div style="font-size:14px;font-weight:700">🌬️ Piano Pasti Air Fryer · Albert Heijn</div>
+      <div style="font-size:9px;opacity:0.85;margin-top:3px">${goal} · ${people} persona${people>1?'e':''} · ${days} giorni · Doppio cestello · Ready-to-Cook</div>
+      <div style="font-size:8px;opacity:0.8;margin-top:2px">Preriscalda 3 min a 200°C · Olio spray · P=Proteina · C=Contorno</div>
+    </div>
+    ${giorni}
+    <div style="background:#E8F0F8;padding:8px 12px;border-radius:6px;margin-top:8px">
+      <div style="font-size:8px;font-weight:700;color:#00A0E2;text-transform:uppercase;margin-bottom:3px">Profilo Nutrizionale</div>
+      <div style="font-size:9px;line-height:1.5">Calorie: ${ni.calorie_giornaliere_stimate} kcal/giorno &nbsp;·&nbsp; Proteine: ${ni.proteine} &nbsp;·&nbsp; Carboidrati: ${ni.carboidrati} &nbsp;·&nbsp; Grassi: ${ni.grassi}</div>
+    </div>
+    <div style="background:#F0F7FF;color:#003882;font-size:8px;padding:8px 12px;margin-top:8px;border-radius:6px;line-height:1.5">💡 ${result.consigli}</div>`;
+  document.body.appendChild(el);
+  html2pdf().set({
+    margin:10,
+    filename:'AH_Piano_Pasti_AirFryer.pdf',
+    image:{type:'jpeg',quality:0.98},
+    html2canvas:{scale:2,useCORS:true},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+  }).from(el).save().then(()=>document.body.removeChild(el));
+}
+
+// ── COMPONENTE APP ────────────────────────────────────────────────────────────
+function App(){
+  const [goal,setGoal]=useState("");
+  const [people,setPeople]=useState("1");
+  const [days,setDays]=useState("7");
+  const [note,setNote]=useState("");
+  const [result,setResult]=useState(null);
+
+  const handleGenerate=()=>{
+    const base=PIANI[goal]||PIANI["Alta proteina"];
+    setResult(scalaPerPersone(base,parseInt(people),parseInt(days)));
+  };
+
+  const nc=(l="")=>{
+    l=l.toLowerCase();
+    if(l.includes("alta")||l.includes("high"))return GREEN;
+    if(l.includes("bassa")||l.includes("low")||l.includes("molto"))return AH_BLUE;
+    return ORANGE;
+  };
+
+  return(
+    <div style={S.app}>
+      <div style={S.header}>
+        <div style={S.logoRow}>
+          <div style={S.logoBox}>ah</div>
+          <span style={S.headerSub}>Shopping Assistant</span>
+        </div>
+        <div style={S.tagline}>Lista della spesa intelligente</div>
+        <div style={S.badges}>
+          <span style={S.badge()}>🌬️ Air Fryer · doppio cestello</span>
+          <span style={S.badge("rgba(255,255,255,0.13)")}>✂️ Ready-to-cook</span>
+        </div>
+      </div>
+
+      <div style={S.main}>
+        <div style={S.card}>
+          <label style={S.label}>Obiettivo alimentare</label>
+          <div style={S.chipRow}>
+            {GOALS.map(g=><div key={g} style={S.chip(goal===g)} onClick={()=>{setGoal(goal===g?"":g);setResult(null);}}>{g}</div>)}
+          </div>
+          <div style={{marginTop:"14px"}}>
+            <label style={S.label}>Note (allergie, preferenze)</label>
+            <textarea style={S.textarea} placeholder="Es: no latticini, no glutine..." value={note} onChange={e=>setNote(e.target.value)}/>
+          </div>
+          <div style={{display:"flex",gap:"14px",marginTop:"14px"}}>
+            <div style={{flex:1}}>
+              <label style={S.label}>Persone</label>
+              <div style={S.chipRow}>
+                {PEOPLE.map(p=><div key={p} style={S.chip(people===p)} onClick={()=>{setPeople(p);setResult(null);}}>{p} pers.</div>)}
+              </div>
+            </div>
+            <div style={{flex:1}}>
+              <label style={S.label}>Giorni</label>
+              <div style={S.chipRow}>
+                {DAYS_OPT.map(d=><div key={d} style={S.chip(days===d)} onClick={()=>{setDays(d);setResult(null);}}>{d} giorni</div>)}
               </div>
             </div>
           </div>
