@@ -13,57 +13,9 @@
 <body>
 <div id="root"></div>
 <script type="text/babel">
-
-const { useState } = React;
-
+const {useState} = React;
 const AH_BLUE="#00A0E2",AH_DARK="#003882",BG="#F5F9FF",WHITE="#FFFFFF",
       GRAY="#6B7280",LIGHT_GRAY="#E8F0F8",GREEN="#2D8C4E",ORANGE="#F97316",LIGHT2="#F0F7FF";
-
-const S={
-  app:{minHeight:"100vh",background:BG,fontFamily:"'Inter','Segoe UI',sans-serif",color:"#1A1A2E"},
-  header:{background:`linear-gradient(135deg,${AH_DARK} 0%,${AH_BLUE} 100%)`,padding:"24px 20px 20px",color:WHITE},
-  logoRow:{display:"flex",alignItems:"center",gap:"10px",marginBottom:"6px"},
-  logoBox:{background:WHITE,color:AH_BLUE,fontWeight:"900",fontSize:"18px",padding:"4px 10px",borderRadius:"6px"},
-  headerSub:{fontSize:"12px",opacity:0.8,textTransform:"uppercase",letterSpacing:"0.5px"},
-  tagline:{fontSize:"20px",fontWeight:"700",marginTop:"4px"},
-  badges:{display:"flex",gap:"8px",marginTop:"8px",flexWrap:"wrap"},
-  badge:(bg)=>({display:"inline-flex",alignItems:"center",gap:"4px",background:bg||"rgba(255,255,255,0.18)",borderRadius:"20px",padding:"3px 10px",fontSize:"11px",fontWeight:"600"}),
-  main:{maxWidth:"700px",margin:"0 auto",padding:"20px 14px 40px"},
-  card:{background:WHITE,borderRadius:"16px",padding:"20px",boxShadow:"0 2px 12px rgba(0,56,130,0.08)",marginBottom:"16px"},
-  label:{fontSize:"11px",fontWeight:"700",color:AH_DARK,marginBottom:"7px",display:"block",textTransform:"uppercase",letterSpacing:"0.6px"},
-  textarea:{width:"100%",padding:"11px 13px",borderRadius:"10px",border:`2px solid ${LIGHT_GRAY}`,fontSize:"13px",color:"#1A1A2E",background:BG,boxSizing:"border-box",resize:"vertical",minHeight:"70px",fontFamily:"inherit",outline:"none"},
-  chipRow:{display:"flex",flexWrap:"wrap",gap:"7px",marginTop:"8px"},
-  chip:(on)=>({padding:"5px 12px",borderRadius:"20px",fontSize:"12px",fontWeight:"600",cursor:"pointer",border:`2px solid ${on?AH_BLUE:LIGHT_GRAY}`,background:on?AH_BLUE:WHITE,color:on?WHITE:GRAY,transition:"all 0.15s"}),
-  btn:{width:"100%",padding:"13px",background:`linear-gradient(135deg,${AH_BLUE} 0%,${AH_DARK} 100%)`,color:WHITE,border:"none",borderRadius:"12px",fontSize:"14px",fontWeight:"700",cursor:"pointer",marginTop:"4px"},
-  btnPDF:(c)=>({flex:1,padding:"11px 8px",background:c,color:WHITE,border:"none",borderRadius:"10px",fontSize:"12px",fontWeight:"700",cursor:"pointer"}),
-  pdfRow:{display:"flex",gap:"10px",marginTop:"10px"},
-  sectionTitle:{fontSize:"15px",fontWeight:"700",color:AH_DARK,marginBottom:"12px",display:"flex",alignItems:"center",gap:"8px"},
-  afCard:{borderRadius:"12px",marginBottom:"9px",overflow:"hidden",border:`1px solid ${LIGHT_GRAY}`},
-  afDayBar:{background:AH_DARK,color:WHITE,padding:"7px 13px",fontSize:"12px",fontWeight:"700"},
-  afMealRow:{display:"flex"},
-  afHalf:(b)=>({flex:1,padding:"11px 13px",background:b?LIGHT2:LIGHT_GRAY,borderRight:b?`1px solid ${LIGHT_GRAY}`:"none"}),
-  afMealLabel:{fontSize:"10px",fontWeight:"700",color:AH_BLUE,textTransform:"uppercase",letterSpacing:"0.5px",marginBottom:"3px"},
-  afProt:{fontSize:"11px",fontWeight:"600",color:"#1A1A2E",marginBottom:"2px"},
-  afCont:{fontSize:"11px",color:"#374151",marginBottom:"5px"},
-  afTimes:{fontSize:"10px",color:GRAY,lineHeight:1.6},
-  afNote:{fontSize:"10px",color:ORANGE,fontStyle:"italic",marginTop:"3px"},
-  catBlock:{marginBottom:"16px"},
-  catLabel:{fontSize:"10px",fontWeight:"700",color:AH_BLUE,textTransform:"uppercase",letterSpacing:"0.8px",marginBottom:"6px",paddingBottom:"3px",borderBottom:`2px solid ${LIGHT_GRAY}`},
-  itemRow:{display:"flex",justifyContent:"space-between",alignItems:"flex-start",padding:"8px 0",borderBottom:`1px solid ${LIGHT_GRAY}`,gap:"8px"},
-  itemName:{fontWeight:"600",fontSize:"13px",color:"#1A1A2E",flex:1},
-  itemDetail:{fontSize:"11px",color:GRAY,marginTop:"1px"},
-  itemPrice:{fontWeight:"700",color:GREEN,fontSize:"13px",whiteSpace:"nowrap"},
-  bonusBadge:{background:ORANGE,color:WHITE,fontSize:"8px",fontWeight:"700",padding:"1px 5px",borderRadius:"6px",marginLeft:"4px"},
-  rtcTag:{background:AH_BLUE+"22",color:AH_BLUE,fontSize:"8px",fontWeight:"700",padding:"1px 5px",borderRadius:"6px",marginLeft:"4px"},
-  totalBar:{background:AH_DARK,borderRadius:"12px",padding:"13px 16px",display:"flex",justifyContent:"space-between",alignItems:"center",color:WHITE,marginTop:"8px"},
-  totalLabel:{fontSize:"12px",opacity:0.8},
-  totalAmount:{fontSize:"20px",fontWeight:"900"},
-  nutriRow:{display:"flex",gap:"8px",flexWrap:"wrap",marginTop:"8px"},
-  nutriChip:(c)=>({background:c+"22",color:c,borderRadius:"8px",padding:"3px 9px",fontSize:"10px",fontWeight:"700"}),
-  consiglio:{marginTop:"12px",padding:"11px 13px",background:LIGHT_GRAY,borderRadius:"10px",fontSize:"12px",color:AH_DARK,lineHeight:1.6},
-  rtcNote:{fontSize:"10px",color:AH_BLUE,marginTop:"10px",padding:"7px 11px",background:LIGHT2,borderRadius:"8px"},
-};
-
 const GOALS=["Alta proteina","Low carb","Vegetariano","Vegano","Mediterraneo","Budget"];
 const PEOPLE=["1","2","3","4"];
 const DAYS_OPT=["3","5","7"];
@@ -363,496 +315,225 @@ function scalaPerPersone(piano,np,nd){
   return{...piano,piano_pasti:pasti,lista_spesa:lista,totale_stimato:tot};
 }
 
-// ── GENERA PDF LISTA SPESA via finestra di stampa ─────────────────────────────
-function apriStampaLista(result,goal,people,days){
+function scaricaPDFLista(result,goal,people,days){
   const righe=result.lista_spesa.map(cat=>`
-    <div style="background:#E8F0F8;color:#00A0E2;font-size:9px;font-weight:700;letter-spacing:1px;padding:5px 8px;margin:10px 0 4px;text-transform:uppercase">${cat.categoria.toUpperCase()}</div>
+    <div style="background:#E8F0F8;color:#00A0E2;font-size:9px;font-weight:700;letter-spacing:1px;padding:5px 8px;margin:10px 0 4px;text-transform:uppercase">${cat.categoria}</div>
     ${cat.prodotti.map(p=>`
       <div style="display:flex;align-items:flex-start;padding:5px 0;border-bottom:1px solid #DDE8F5;gap:8px">
-        <div style="width:11px;height:11px;border:1.5px solid #00A0E2;border-radius:2px;flex-shrink:0;margin-top:1px"></div>
+        <div style="width:11px;height:11px;border:1.5px solid #00A0E2;border-radius:2px;flex-shrink:0;margin-top:2px"></div>
         <div style="flex:1">
-          <div style="font-weight:600;font-size:10px">${p.nome}${p.rtc?'<span style="background:#E0F2FE;color:#00A0E2;font-size:7px;font-weight:700;padding:1px 4px;border-radius:4px;margin-left:4px">RTC</span>':''}${p.bonus?'<span style="background:#F97316;color:white;font-size:7px;font-weight:700;padding:1px 4px;border-radius:4px;margin-left:3px">BONUS</span>':''}</div>
-          <div style="font-size:9px;color:#6B7280;margin-top:1px">${p.quantita}${p.note?' · '+p.note:''}</div>
+          <div style="font-weight:600;font-size:10px">${p.nome}${p.rtc?' [RTC]':''}${p.bonus?' [BONUS]':''}</div>
+          <div style="font-size:9px;color:#6B7280">${p.quantita}${p.note?' · '+p.note:''}</div>
         </div>
-        <div style="font-weight:700;color:#2D8C4E;font-size:10px;white-space:nowrap">€${p.prezzo_stimato}</div>
+        <div style="font-weight:700;color:#2D8C4E;font-size:10px">€${p.prezzo_stimato}</div>
       </div>`).join('')}`).join('');
-
-  const el=document.createElement('div');
-  el.style.cssText='font-family:Helvetica,Arial,sans-serif;font-size:11px;color:#1A1A2E;padding:20px;width:180mm';
-  el.innerHTML=`
-    <div style="background:linear-gradient(135deg,#003882,#00A0E2);color:white;padding:14px 16px;margin-bottom:14px;border-radius:6px">
-      <div style="font-size:14px;font-weight:700">🛒 Lista della Spesa · Albert Heijn</div>
-      <div style="font-size:9px;opacity:0.85;margin-top:3px">${goal} · ${people} persona${people>1?'e':''} · ${days} giorni · Air Fryer Ready-to-Cook</div>
-      <div style="font-size:8px;opacity:0.8;margin-top:2px">✂ Prodotti freschi, già porzionati, pronti per il cestello</div>
+  const div=document.createElement('div');
+  div.style.cssText='position:fixed;left:-9999px;top:0;font-family:Arial,sans-serif;width:190mm;padding:15px;background:white';
+  div.innerHTML=`
+    <div style="background:#003882;color:white;padding:12px;margin-bottom:12px;border-radius:4px">
+      <div style="font-size:14px;font-weight:700">Lista della Spesa - Albert Heijn</div>
+      <div style="font-size:9px;margin-top:3px">${goal} · ${people} persona${people>1?'e':''} · ${days} giorni · Air Fryer Ready-to-Cook</div>
     </div>
     ${righe}
-    <div style="background:#003882;color:white;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:14px;border-radius:6px">
-      <span style="font-size:10px;opacity:0.8">Totale · ${days} giorni · ${people} persona${people>1?'e':''}</span>
-      <span style="font-size:16px;font-weight:900">€${result.totale_stimato}</span>
+    <div style="background:#003882;color:white;padding:10px;display:flex;justify-content:space-between;margin-top:12px;border-radius:4px">
+      <span style="font-size:10px">Totale · ${days} giorni · ${people} persona${people>1?'e':''}</span>
+      <span style="font-size:15px;font-weight:900">€${result.totale_stimato}</span>
     </div>
-    <div style="background:#F0F7FF;color:#003882;font-size:8px;padding:8px 12px;margin-top:10px;border-radius:6px;line-height:1.5">💡 ${result.consigli}</div>`;
-  document.body.appendChild(el);
-  html2pdf().set({
-    margin:10,
-    filename:'AH_Lista_Spesa.pdf',
-    image:{type:'jpeg',quality:0.98},
-    html2canvas:{scale:2,useCORS:true},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-  }).from(el).save().then(()=>document.body.removeChild(el));
+    <div style="background:#F0F7FF;color:#003882;font-size:8px;padding:8px;margin-top:8px;border-radius:4px">${result.consigli}</div>`;
+  document.body.appendChild(div);
+  html2pdf().set({margin:8,filename:'AH_Lista_Spesa.pdf',html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}})
+    .from(div).save().then(()=>document.body.removeChild(div));
 }
 
-apriStampaPiani(result,goal,people,days){
+function scaricaPDFPiani(result,goal,people,days){
   const giorni=result.piano_pasti.map(g=>`
-    <div class="day-card">
-      <div class="day-bar">${g.giorno}</div>
-      <div class="meals-row">
-        <div class="meal-half meal-pranzo">
-          <div class="meal-label">&#9728; PRANZO</div>
-          <div class="prot">&#128296; ${g.pranzo.proteina}</div>
-          <div class="cont">&#127807; ${g.pranzo.contorno}</div>
-          <div class="temps">
-            <span class="tp">&#9201; P: ${g.pranzo.tempP}</span><br>
-            <span class="tc">&#9201; C: ${g.pranzo.tempC}</span>
-          </div>
-          ${g.pranzo.note?`<div class="nota">&rarr; ${g.pranzo.note}</div>`:''}
-        </div>
-        <div class="meal-half meal-cena">
-          <div class="meal-label">&#9790; CENA</div>
-          <div class="prot">&#128296; ${g.cena.proteina}</div>
-          <div class="cont">&#127807; ${g.cena.contorno}</div>
-          <div class="temps">
-            <span class="tp">&#9201; P: ${g.cena.tempP}</span><br>
-            <span class="tc">&#9201; C: ${g.cena.tempC}</span>
-          </div>
-          ${g.cena.note?`<div class="nota">&rarr; ${g.cena.note}</div>`:''}
-        </div>
-      </div>
-    </div>`).join('');
-
-  const ni=result.info_nutrizionali;
-  const html=`<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8">
-<title>AH Piano Pasti Air Fryer</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Helvetica Neue',Arial,sans-serif;font-size:10px;color:#1A1A2E}
-  .header{background:linear-gradient(135deg,#00A0E2,#003882);color:white;padding:14px 20px;margin-bottom:12px}
-  .ah{background:white;color:#00A0E2;font-weight:900;font-size:13px;padding:2px 7px;border-radius:4px;display:inline-block;margin-right:8px}
-  .h-title{font-size:15px;font-weight:700;display:inline}
-  .h-sub{font-size:9px;opacity:0.85;margin-top:4px}
-  .body{padding:0 14px}
-  .day-card{margin-bottom:8px;border:1px solid #E8F0F8;border-radius:8px;overflow:hidden}
-  .day-bar{background:#003882;color:white;padding:5px 10px;font-size:10px;font-weight:700}
-  .meals-row{display:flex}
-  .meal-half{flex:1;padding:8px 10px}
-  .meal-pranzo{background:#F0F7FF;border-right:1px solid #E8F0F8}
-  .meal-cena{background:#E8F0F8}
-  .meal-label{font-size:8px;font-weight:700;color:#00A0E2;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px}
-  .prot{font-size:9px;font-weight:600;color:#1A1A2E;margin-bottom:2px;line-height:1.3}
-  .cont{font-size:9px;color:#374151;margin-bottom:4px;line-height:1.3}
-  .temps{font-size:8px;line-height:1.7}
-  .tp{color:#00A0E2;font-weight:600}
-  .tc{color:#2D8C4E;font-weight:600}
-  .nota{font-size:8px;color:#F97316;font-style:italic;margin-top:3px;line-height:1.3}
-  .nutri{background:#E8F0F8;margin:10px 14px;padding:8px 12px;border-radius:6px}
-  .nutri-title{font-size:8px;font-weight:700;color:#00A0E2;text-transform:uppercase;margin-bottom:3px}
-  .nutri-val{font-size:9px;color:#1A1A2E;line-height:1.5}
-  .consiglio{background:#F0F7FF;color:#003882;font-size:8px;padding:7px 14px;margin:8px 14px;border-radius:6px;line-height:1.5}
-  @media print{@page{margin:0.8cm;size:A4}button{display:none!important}.no-print{display:none}}
-</style></head><body>
-<div class="no-print" style="background:#00A0E2;color:white;padding:10px 20px;display:flex;justify-content:space-between;align-items:center">
-  <span style="font-weight:700">Piano Pasti Air Fryer · Albert Heijn</span>
-  <button onclick="window.print()" style="background:#003882;color:white;border:none;padding:6px 16px;border-radius:6px;font-weight:700;cursor:pointer">🖨️ Stampa / Salva PDF</button>
-</div>
-<div class="header">
-  <div><span class="ah">ah</span><span class="h-title">Piano Pasti Air Fryer</span></div>
-  <div class="h-sub">${goal} · ${people} persona${people>1?'e':''} · ${days} giorni · Doppio cestello · Ready-to-Cook</div>
-</div>
-<div class="body">${giorni}</div>
-<div class="nutri">
-  <div class="nutri-title">Profilo Nutrizionale</div>
-  <div class="nutri-val">Calorie: ${ni.calorie_giornaliere_stimate} kcal/giorno &nbsp;·&nbsp; Proteine: ${ni.proteine} &nbsp;·&nbsp; Carboidrati: ${ni.carboidrati} &nbsp;·&nbsp; Grassi: ${ni.grassi}</div>
-</div>
-<div class="consiglio">💡 ${result.consigli}</div>
-</body></html>`;
-
-  const blob=new Blob([html],{type:'text/html'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url; a.download='AH_Piano_Pasti_AirFryer.html';
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a);
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-
-// ── COMPONENTE APP ────────────────────────────────────────────────────────────
-function App(){
-  const [goal,setGoal]=useState("");
-  const [people,setPeople]=useState("1");
-  const [days,setDays]=useState("7");
-  const [note,setNote]=useState("");
-  const [result,setResult]=useState(null);
-
-  const handleGenerate=()=>{
-    const base=PIANI[goal]||PIANI["Alta proteina"];
-    setResult(scalaPerPersone(base,parseInt(people),parseInt(days)));
-  };
-
-  const nc=(l="")=>{
-    l=l.toLowerCase();
-    if(l.includes("alta")||l.includes("high"))return GREEN;
-    if(l.includes("bassa")||l.includes("low")||l.includes("molto"))return AH_BLUE;
-    return ORANGE;
-  };
-
-  return(
-    <div style={S.app}>
-      <div style={S.header}>
-        <div style={S.logoRow}>
-          <div style={S.logoBox}>ah</div>
-          <span style={S.headerSub}>Shopping Assistant</span>
-        </div>
-        <div style={S.tagline}>Lista della spesa intelligente</div>
-        <div style={S.badges}>
-          <span style={S.badge()}>🌬️ Air Fryer · doppio cestello</span>
-          <span style={S.badge("rgba(255,255,255,0.13)")}>✂️ Ready-to-cook</span>
-        </div>
-      </div>
-
-      <div style={S.main}>
-        <div style={S.card}>
-          <label style={S.label}>Obiettivo alimentare</label>
-          <div style={S.chipRow}>
-            {GOALS.map(g=><div key={g} style={S.chip(goal===g)} onClick={()=>{setGoal(goal===g?"":g);setResult(null);}}>{g}</div>)}
-          </div>
-          <div style={{marginTop:"14px"}}>
-            <label style={S.label}>Note (allergie, preferenze)</label>
-            <textarea style={S.textarea} placeholder="Es: no latticini, no glutine..." value={note} onChange={e=>setNote(e.target.value)}/>
-          </div>
-          <div style={{display:"flex",gap:"14px",marginTop:"14px"}}>
-            <div style={{flex:1}}>
-              <label style={S.label}>Persone</label>
-              <div style={S.chipRow}>
-                {PEOPLE.map(p=><div key={p} style={S.chip(people===p)} onClick={()=>{setPeople(p);setResult(null);}}>{p} pers.</div>)}
-              </div>
-            </div>
-            <div style={{flex:1}}>
-              <label style={S.label}>Giorni</label>
-              <div style={S.chipRow}>
-                {DAYS_OPT.map(d=><div key={d} style={S.chip(days===d)} onClick={()=>{setDays(d);setResult(null);}}>{d} giorni</div>)}
-              </div>
-            </div>
-          </div>
-          <div style={{marginTop:"14px"}}>
-            <button style={{...S.btn,...(!goal?{opacity:0.5,cursor:"not-allowed"}:{})}} onClick={handleGenerate} disabled={!goal}>
-              Genera piano e lista della spesa →
-            </button>
-          </div>
-          <div style={S.rtcNote}>✂️ Solo prodotti freschi già porzionati e puliti — niente coltello, niente tagliere.</div>
-        </div>
-
-        {result&&(
-          <>
-            {/* PULSANTI PDF */}
-            <div style={S.card}>
-              <div style={S.sectionTitle}>📄 Scarica PDF</div>
-              <div style={S.pdfRow}>
-                <button style={S.btnPDF(AH_DARK)}
-                  onClick={()=>apriStampaLista(result,goal,parseInt(people),parseInt(days))}>
-                  🛒 PDF Lista della Spesa
-                </button>
-                <button style={S.btnPDF(AH_BLUE)}
-                  onClick={()=>apriStampaPiani(result,goal,parseInt(people),parseInt(days))}>
-                  🌬️ PDF Piano Pasti AF
-                </button>
-              </div>
-              <div style={{fontSize:"10px",color:GRAY,marginTop:"8px"}}>
-                Scarica il file HTML → aprilo nel browser → usa Stampa (Cmd+P / Ctrl+P) → Salva come PDF
-              </div>
-            </div>
-
-            {/* PIANO PASTI */}
-            <div style={S.card}>
-              <div style={S.sectionTitle}>🌬️ Piano Pasti Air Fryer · {days} giorni</div>
-              {result.piano_pasti.map((g,i)=>(
-                <div key={i} style={S.afCard}>
-                  <div style={S.afDayBar}>{g.giorno}</div>
-                  <div style={S.afMealRow}>
-                    {["pranzo","cena"].map((tipo,ti)=>(
-                      <div key={tipo} style={S.afHalf(ti===0)}>
-                        <div style={S.afMealLabel}>{tipo==="pranzo"?"🌞 Pranzo":"🌙 Cena"}</div>
-                        <div style={S.afProt}>🔖 {g[tipo].proteina}</div>
-                        <div style={S.afCont}>🌿 {g[tipo].contorno}</div>
-                        <div style={S.afTimes}>
-                          <span style={{color:AH_BLUE}}>⏱ P: {g[tipo].tempP}</span><br/>
-                          <span style={{color:GREEN}}>⏱ C: {g[tipo].tempC}</span>
-                        </div>
-                        {g[tipo].note&&<div style={S.afNote}>→ {g[tipo].note}</div>}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* LISTA SPESA */}
-            <div style={S.card}>
-              <div style={S.sectionTitle}>🛒 Lista della spesa · Albert Heijn</div>
-              {result.lista_spesa.map((cat,i)=>(
-                <div key={i} style={S.catBlock}>
-                  <div style={S.catLabel}>{cat.categoria}</div>
-                  {cat.prodotti.map((p,j)=>(
-                    <div key={j} style={S.itemRow}>
-                      <div style={{flex:1}}>
-                        <div style={S.itemName}>
-                          {p.nome}
-                          {p.bonus&&<span style={S.bonusBadge}>BONUS</span>}
-                          {p.rtc&&<span style={S.rtcTag}>✂️ RTC</span>}
-                        </div>
-                        <div style={S.itemDetail}>{p.quantita}{p.note?` · ${p.note}`:""}</div>
-                      </div>
-                      <div style={S.itemPrice}>€{p.prezzo_stimato}</div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-              <div style={S.totalBar}>
-                <div style={S.totalLabel}>Totale · {days} giorni · {people} persona{people==="1"?"":"e"}</div>
-                <div style={S.totalAmount}>€{result.totale_stimato}</div>
-              </div>
-            </div>
-
-            {/* NUTRI */}
-            {result.info_nutrizionali&&(
-              <div style={S.card}>
-                <div style={S.sectionTitle}>🥗 Profilo nutrizionale</div>
-                <div style={{fontSize:"12px",color:GRAY,marginBottom:"6px"}}>
-                  Calorie: <strong style={{color:AH_DARK}}>{result.info_nutrizionali.calorie_giornaliere_stimate} kcal/giorno</strong>
-                </div>
-                <div style={S.nutriRow}>
-                  <div style={S.nutriChip(nc(result.info_nutrizionali.proteine))}>Proteine: {result.info_nutrizionali.proteine}</div>
-                  <div style={S.nutriChip(nc(result.info_nutrizionali.carboidrati))}>Carboidrati: {result.info_nutrizionali.carboidrati}</div>
-                  <div style={S.nutriChip(nc(result.info_nutrizionali.grassi))}>Grassi: {result.info_nutrizionali.grassi}</div>
-                </div>
-                {result.consigli&&<div style={S.consiglio}>💡 {result.consigli}</div>}
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-const root=ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App/>);
-</script>
-</body>
-</htmlfunction apriStampaPiani(result,goal,people,days){
-  const giorni=result.piano_pasti.map((g,idx)=>`
-    <div style="margin-bottom:8px;border:1px solid #E8F0F8;border-radius:6px;overflow:hidden">
-      <div style="background:#003882;color:white;padding:5px 10px;font-size:10px;font-weight:700">${g.giorno}</div>
+    <div style="margin-bottom:7px;border:1px solid #E8F0F8;border-radius:4px;overflow:hidden;page-break-inside:avoid">
+      <div style="background:#003882;color:white;padding:5px 8px;font-size:10px;font-weight:700">${g.giorno}</div>
       <div style="display:flex">
-        <div style="flex:1;padding:8px 10px;background:#F0F7FF;border-right:1px solid #E8F0F8">
-          <div style="font-size:8px;font-weight:700;color:#00A0E2;text-transform:uppercase;margin-bottom:3px">☀ PRANZO</div>
-          <div style="font-size:9px;font-weight:600;margin-bottom:2px;line-height:1.3">🔖 ${g.pranzo.proteina}</div>
-          <div style="font-size:9px;color:#374151;margin-bottom:4px;line-height:1.3">🌿 ${g.pranzo.contorno}</div>
-          <div style="font-size:8px;line-height:1.7"><span style="color:#00A0E2;font-weight:600">⏱ P: ${g.pranzo.tempP}</span><br><span style="color:#2D8C4E;font-weight:600">⏱ C: ${g.pranzo.tempC}</span></div>
-          ${g.pranzo.note?`<div style="font-size:8px;color:#F97316;font-style:italic;margin-top:3px;line-height:1.3">→ ${g.pranzo.note}</div>`:''}
+        <div style="flex:1;padding:7px 8px;background:#F0F7FF;border-right:1px solid #E8F0F8">
+          <div style="font-size:8px;font-weight:700;color:#00A0E2;margin-bottom:2px">PRANZO</div>
+          <div style="font-size:9px;font-weight:600;line-height:1.3;margin-bottom:2px">${g.pranzo.proteina}</div>
+          <div style="font-size:8px;color:#374151;margin-bottom:3px">${g.pranzo.contorno}</div>
+          <div style="font-size:8px"><span style="color:#00A0E2">P: ${g.pranzo.tempP}</span> / <span style="color:#2D8C4E">C: ${g.pranzo.tempC}</span></div>
+          ${g.pranzo.note?`<div style="font-size:7px;color:#F97316;margin-top:2px">${g.pranzo.note}</div>`:''}
         </div>
-        <div style="flex:1;padding:8px 10px;background:#E8F0F8">
-          <div style="font-size:8px;font-weight:700;color:#00A0E2;text-transform:uppercase;margin-bottom:3px">☽ CENA</div>
-          <div style="font-size:9px;font-weight:600;margin-bottom:2px;line-height:1.3">🔖 ${g.cena.proteina}</div>
-          <div style="font-size:9px;color:#374151;margin-bottom:4px;line-height:1.3">🌿 ${g.cena.contorno}</div>
-          <div style="font-size:8px;line-height:1.7"><span style="color:#00A0E2;font-weight:600">⏱ P: ${g.cena.tempP}</span><br><span style="color:#2D8C4E;font-weight:600">⏱ C: ${g.cena.tempC}</span></div>
-          ${g.cena.note?`<div style="font-size:8px;color:#F97316;font-style:italic;margin-top:3px;line-height:1.3">→ ${g.cena.note}</div>`:''}
+        <div style="flex:1;padding:7px 8px;background:#E8F0F8">
+          <div style="font-size:8px;font-weight:700;color:#00A0E2;margin-bottom:2px">CENA</div>
+          <div style="font-size:9px;font-weight:600;line-height:1.3;margin-bottom:2px">${g.cena.proteina}</div>
+          <div style="font-size:8px;color:#374151;margin-bottom:3px">${g.cena.contorno}</div>
+          <div style="font-size:8px"><span style="color:#00A0E2">P: ${g.cena.tempP}</span> / <span style="color:#2D8C4E">C: ${g.cena.tempC}</span></div>
+          ${g.cena.note?`<div style="font-size:7px;color:#F97316;margin-top:2px">${g.cena.note}</div>`:''}
         </div>
       </div>
     </div>`).join('');
-
   const ni=result.info_nutrizionali;
-  const el=document.createElement('div');
-  el.style.cssText='font-family:Helvetica,Arial,sans-serif;font-size:11px;color:#1A1A2E;padding:20px;width:180mm';
-  el.innerHTML=`
-    <div style="background:linear-gradient(135deg,#00A0E2,#003882);color:white;padding:14px 16px;margin-bottom:12px;border-radius:6px">
-      <div style="font-size:14px;font-weight:700">🌬️ Piano Pasti Air Fryer · Albert Heijn</div>
-      <div style="font-size:9px;opacity:0.85;margin-top:3px">${goal} · ${people} persona${people>1?'e':''} · ${days} giorni · Doppio cestello · Ready-to-Cook</div>
-      <div style="font-size:8px;opacity:0.8;margin-top:2px">Preriscalda 3 min a 200°C · Olio spray · P=Proteina · C=Contorno</div>
+  const div=document.createElement('div');
+  div.style.cssText='position:fixed;left:-9999px;top:0;font-family:Arial,sans-serif;width:190mm;padding:15px;background:white';
+  div.innerHTML=`
+    <div style="background:#00A0E2;color:white;padding:12px;margin-bottom:10px;border-radius:4px">
+      <div style="font-size:14px;font-weight:700">Piano Pasti Air Fryer - Albert Heijn</div>
+      <div style="font-size:9px;margin-top:3px">${goal} · ${people} persona${people>1?'e':''} · ${days} giorni · Doppio cestello</div>
+      <div style="font-size:8px;margin-top:2px">Preriscalda 3 min 200C · P=Proteina · C=Contorno</div>
     </div>
     ${giorni}
-    <div style="background:#E8F0F8;padding:8px 12px;border-radius:6px;margin-top:8px">
-      <div style="font-size:8px;font-weight:700;color:#00A0E2;text-transform:uppercase;margin-bottom:3px">Profilo Nutrizionale</div>
-      <div style="font-size:9px;line-height:1.5">Calorie: ${ni.calorie_giornaliere_stimate} kcal/giorno &nbsp;·&nbsp; Proteine: ${ni.proteine} &nbsp;·&nbsp; Carboidrati: ${ni.carboidrati} &nbsp;·&nbsp; Grassi: ${ni.grassi}</div>
+    <div style="background:#E8F0F8;padding:8px;border-radius:4px;margin-top:8px;font-size:8px">
+      <b>Profilo nutrizionale:</b> ${ni.calorie_giornaliere_stimate} kcal · Proteine: ${ni.proteine} · Carboidrati: ${ni.carboidrati} · Grassi: ${ni.grassi}
     </div>
-    <div style="background:#F0F7FF;color:#003882;font-size:8px;padding:8px 12px;margin-top:8px;border-radius:6px;line-height:1.5">💡 ${result.consigli}</div>`;
-  document.body.appendChild(el);
-  html2pdf().set({
-    margin:10,
-    filename:'AH_Piano_Pasti_AirFryer.pdf',
-    image:{type:'jpeg',quality:0.98},
-    html2canvas:{scale:2,useCORS:true},
-    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-  }).from(el).save().then(()=>document.body.removeChild(el));
+    <div style="background:#F0F7FF;color:#003882;font-size:8px;padding:8px;margin-top:6px;border-radius:4px">${result.consigli}</div>`;
+  document.body.appendChild(div);
+  html2pdf().set({margin:8,filename:'AH_Piano_Pasti_AirFryer.pdf',html2canvas:{scale:2},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}})
+    .from(div).save().then(()=>document.body.removeChild(div));
 }
 
-// ── COMPONENTE APP ────────────────────────────────────────────────────────────
 function App(){
   const [goal,setGoal]=useState("");
   const [people,setPeople]=useState("1");
   const [days,setDays]=useState("7");
   const [note,setNote]=useState("");
   const [result,setResult]=useState(null);
-
-  const handleGenerate=()=>{
-    const base=PIANI[goal]||PIANI["Alta proteina"];
-    setResult(scalaPerPersone(base,parseInt(people),parseInt(days)));
+  const S={
+    card:{background:WHITE,borderRadius:"16px",padding:"20px",boxShadow:"0 2px 12px rgba(0,56,130,0.08)",marginBottom:"16px"},
+    chip:(on)=>({padding:"6px 13px",borderRadius:"20px",fontSize:"13px",fontWeight:"600",cursor:"pointer",
+      border:`2px solid ${on?AH_BLUE:LIGHT_GRAY}`,background:on?AH_BLUE:WHITE,color:on?WHITE:GRAY,transition:"all 0.15s",margin:"3px"}),
+    btn:{width:"100%",padding:"13px",background:`linear-gradient(135deg,${AH_BLUE},${AH_DARK})`,color:WHITE,
+      border:"none",borderRadius:"12px",fontSize:"14px",fontWeight:"700",cursor:"pointer"},
+    btnPDF:(c)=>({flex:1,padding:"11px",background:c,color:WHITE,border:"none",borderRadius:"10px",
+      fontSize:"12px",fontWeight:"700",cursor:"pointer"}),
+    afCard:{borderRadius:"12px",marginBottom:"9px",overflow:"hidden",border:`1px solid ${LIGHT_GRAY}`},
+    afDayBar:{background:AH_DARK,color:WHITE,padding:"7px 13px",fontSize:"12px",fontWeight:"700"},
+    afHalf:(b)=>({flex:1,padding:"11px 13px",background:b?LIGHT2:LIGHT_GRAY,borderRight:b?`1px solid ${LIGHT_GRAY}`:"none"}),
+    catLabel:{fontSize:"10px",fontWeight:"700",color:AH_BLUE,textTransform:"uppercase",letterSpacing:"0.8px",
+      marginBottom:"6px",paddingBottom:"3px",borderBottom:`2px solid ${LIGHT_GRAY}`},
+    itemRow:{display:"flex",justifyContent:"space-between",alignItems:"flex-start",padding:"8px 0",
+      borderBottom:`1px solid ${LIGHT_GRAY}`,gap:"8px"},
+    totalBar:{background:AH_DARK,borderRadius:"12px",padding:"13px 16px",display:"flex",
+      justifyContent:"space-between",alignItems:"center",color:WHITE,marginTop:"8px"},
   };
-
-  const nc=(l="")=>{
-    l=l.toLowerCase();
-    if(l.includes("alta")||l.includes("high"))return GREEN;
-    if(l.includes("bassa")||l.includes("low")||l.includes("molto"))return AH_BLUE;
-    return ORANGE;
-  };
-
+  const nc=(l="")=>{l=l.toLowerCase();return l.includes("alta")?GREEN:l.includes("bassa")||l.includes("molto")?AH_BLUE:ORANGE;};
+  const gen=()=>{const b=PIANI[goal]||PIANI["Alta proteina"];setResult(scalaPerPersone(b,parseInt(people),parseInt(days)));};
   return(
-    <div style={S.app}>
-      <div style={S.header}>
-        <div style={S.logoRow}>
-          <div style={S.logoBox}>ah</div>
-          <span style={S.headerSub}>Shopping Assistant</span>
+    <div style={{minHeight:"100vh",background:BG,fontFamily:"'Inter','Segoe UI',sans-serif",color:"#1A1A2E"}}>
+      <div style={{background:`linear-gradient(135deg,${AH_DARK},${AH_BLUE})`,padding:"24px 20px 20px",color:WHITE}}>
+        <div style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"6px"}}>
+          <div style={{background:WHITE,color:AH_BLUE,fontWeight:"900",fontSize:"18px",padding:"4px 10px",borderRadius:"6px"}}>ah</div>
+          <span style={{fontSize:"12px",opacity:0.8,textTransform:"uppercase",letterSpacing:"0.5px"}}>Shopping Assistant</span>
         </div>
-        <div style={S.tagline}>Lista della spesa intelligente</div>
-        <div style={S.badges}>
-          <span style={S.badge()}>🌬️ Air Fryer · doppio cestello</span>
-          <span style={S.badge("rgba(255,255,255,0.13)")}>✂️ Ready-to-cook</span>
+        <div style={{fontSize:"20px",fontWeight:"700"}}>Lista della spesa intelligente</div>
+        <div style={{display:"flex",gap:"8px",marginTop:"8px",flexWrap:"wrap"}}>
+          <span style={{background:"rgba(255,255,255,0.18)",borderRadius:"20px",padding:"3px 10px",fontSize:"11px",fontWeight:"600"}}>🌬️ Air Fryer · doppio cestello</span>
+          <span style={{background:"rgba(255,255,255,0.13)",borderRadius:"20px",padding:"3px 10px",fontSize:"11px",fontWeight:"600"}}>✂️ Ready-to-cook</span>
         </div>
       </div>
-
-      <div style={S.main}>
+      <div style={{maxWidth:"700px",margin:"0 auto",padding:"20px 14px 40px"}}>
         <div style={S.card}>
-          <label style={S.label}>Obiettivo alimentare</label>
-          <div style={S.chipRow}>
+          <div style={{fontSize:"11px",fontWeight:"700",color:AH_DARK,marginBottom:"8px",textTransform:"uppercase",letterSpacing:"0.6px"}}>Obiettivo alimentare</div>
+          <div style={{display:"flex",flexWrap:"wrap",gap:"4px"}}>
             {GOALS.map(g=><div key={g} style={S.chip(goal===g)} onClick={()=>{setGoal(goal===g?"":g);setResult(null);}}>{g}</div>)}
           </div>
           <div style={{marginTop:"14px"}}>
-            <label style={S.label}>Note (allergie, preferenze)</label>
-            <textarea style={S.textarea} placeholder="Es: no latticini, no glutine..." value={note} onChange={e=>setNote(e.target.value)}/>
+            <div style={{fontSize:"11px",fontWeight:"700",color:AH_DARK,marginBottom:"7px",textTransform:"uppercase",letterSpacing:"0.6px"}}>Note (allergie, preferenze)</div>
+            <textarea style={{width:"100%",padding:"11px 13px",borderRadius:"10px",border:`2px solid ${LIGHT_GRAY}`,fontSize:"13px",background:BG,boxSizing:"border-box",resize:"vertical",minHeight:"70px",fontFamily:"inherit",outline:"none"}}
+              placeholder="Es: no latticini, no glutine..." value={note} onChange={e=>setNote(e.target.value)}/>
           </div>
           <div style={{display:"flex",gap:"14px",marginTop:"14px"}}>
             <div style={{flex:1}}>
-              <label style={S.label}>Persone</label>
-              <div style={S.chipRow}>
+              <div style={{fontSize:"11px",fontWeight:"700",color:AH_DARK,marginBottom:"7px",textTransform:"uppercase",letterSpacing:"0.6px"}}>Persone</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:"4px"}}>
                 {PEOPLE.map(p=><div key={p} style={S.chip(people===p)} onClick={()=>{setPeople(p);setResult(null);}}>{p} pers.</div>)}
               </div>
             </div>
             <div style={{flex:1}}>
-              <label style={S.label}>Giorni</label>
-              <div style={S.chipRow}>
+              <div style={{fontSize:"11px",fontWeight:"700",color:AH_DARK,marginBottom:"7px",textTransform:"uppercase",letterSpacing:"0.6px"}}>Giorni</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:"4px"}}>
                 {DAYS_OPT.map(d=><div key={d} style={S.chip(days===d)} onClick={()=>{setDays(d);setResult(null);}}>{d} giorni</div>)}
               </div>
             </div>
           </div>
           <div style={{marginTop:"14px"}}>
-            <button style={{...S.btn,...(!goal?{opacity:0.5,cursor:"not-allowed"}:{})}} onClick={handleGenerate} disabled={!goal}>
+            <button style={{...S.btn,...(!goal?{opacity:0.5,cursor:"not-allowed"}:{})}} onClick={gen} disabled={!goal}>
               Genera piano e lista della spesa →
             </button>
           </div>
-          <div style={S.rtcNote}>✂️ Solo prodotti freschi già porzionati e puliti — niente coltello, niente tagliere.</div>
+          <div style={{fontSize:"10px",color:AH_BLUE,marginTop:"10px",padding:"7px 11px",background:LIGHT2,borderRadius:"8px"}}>
+            ✂️ Solo prodotti freschi già porzionati — niente coltello, niente tagliere.
+          </div>
         </div>
 
-        {result&&(
-          <>
-            {/* PULSANTI PDF */}
-            <div style={S.card}>
-              <div style={S.sectionTitle}>📄 Scarica PDF</div>
-              <div style={S.pdfRow}>
-                <button style={S.btnPDF(AH_DARK)}
-                  onClick={()=>apriStampaLista(result,goal,parseInt(people),parseInt(days))}>
-                  🛒 PDF Lista della Spesa
-                </button>
-                <button style={S.btnPDF(AH_BLUE)}
-                  onClick={()=>apriStampaPiani(result,goal,parseInt(people),parseInt(days))}>
-                  🌬️ PDF Piano Pasti AF
-                </button>
-              </div>
-              <div style={{fontSize:"10px",color:GRAY,marginTop:"8px"}}>
-                Scarica il file HTML → aprilo nel browser → usa Stampa (Cmd+P / Ctrl+P) → Salva come PDF
-              </div>
+        {result&&(<>
+          <div style={S.card}>
+            <div style={{fontSize:"15px",fontWeight:"700",color:AH_DARK,marginBottom:"12px"}}>📄 Scarica PDF</div>
+            <div style={{display:"flex",gap:"10px"}}>
+              <button style={S.btnPDF(AH_DARK)} onClick={()=>scaricaPDFLista(result,goal,parseInt(people),parseInt(days))}>🛒 Lista della Spesa PDF</button>
+              <button style={S.btnPDF(AH_BLUE)} onClick={()=>scaricaPDFPiani(result,goal,parseInt(people),parseInt(days))}>🌬️ Piano Pasti PDF</button>
             </div>
+          </div>
 
-            {/* PIANO PASTI */}
-            <div style={S.card}>
-              <div style={S.sectionTitle}>🌬️ Piano Pasti Air Fryer · {days} giorni</div>
-              {result.piano_pasti.map((g,i)=>(
-                <div key={i} style={S.afCard}>
-                  <div style={S.afDayBar}>{g.giorno}</div>
-                  <div style={S.afMealRow}>
-                    {["pranzo","cena"].map((tipo,ti)=>(
-                      <div key={tipo} style={S.afHalf(ti===0)}>
-                        <div style={S.afMealLabel}>{tipo==="pranzo"?"🌞 Pranzo":"🌙 Cena"}</div>
-                        <div style={S.afProt}>🔖 {g[tipo].proteina}</div>
-                        <div style={S.afCont}>🌿 {g[tipo].contorno}</div>
-                        <div style={S.afTimes}>
-                          <span style={{color:AH_BLUE}}>⏱ P: {g[tipo].tempP}</span><br/>
-                          <span style={{color:GREEN}}>⏱ C: {g[tipo].tempC}</span>
-                        </div>
-                        {g[tipo].note&&<div style={S.afNote}>→ {g[tipo].note}</div>}
+          <div style={S.card}>
+            <div style={{fontSize:"15px",fontWeight:"700",color:AH_DARK,marginBottom:"12px"}}>🌬️ Piano Pasti · {days} giorni</div>
+            {result.piano_pasti.map((g,i)=>(
+              <div key={i} style={S.afCard}>
+                <div style={S.afDayBar}>{g.giorno}</div>
+                <div style={{display:"flex"}}>
+                  {["pranzo","cena"].map((tipo,ti)=>(
+                    <div key={tipo} style={S.afHalf(ti===0)}>
+                      <div style={{fontSize:"10px",fontWeight:"700",color:AH_BLUE,textTransform:"uppercase",marginBottom:"3px"}}>{tipo==="pranzo"?"🌞 Pranzo":"🌙 Cena"}</div>
+                      <div style={{fontSize:"11px",fontWeight:"600",color:"#1A1A2E",marginBottom:"2px"}}>🔖 {g[tipo].proteina}</div>
+                      <div style={{fontSize:"11px",color:"#374151",marginBottom:"5px"}}>🌿 {g[tipo].contorno}</div>
+                      <div style={{fontSize:"10px",color:GRAY,lineHeight:1.6}}>
+                        <span style={{color:AH_BLUE}}>⏱ P: {g[tipo].tempP}</span><br/>
+                        <span style={{color:GREEN}}>⏱ C: {g[tipo].tempC}</span>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* LISTA SPESA */}
-            <div style={S.card}>
-              <div style={S.sectionTitle}>🛒 Lista della spesa · Albert Heijn</div>
-              {result.lista_spesa.map((cat,i)=>(
-                <div key={i} style={S.catBlock}>
-                  <div style={S.catLabel}>{cat.categoria}</div>
-                  {cat.prodotti.map((p,j)=>(
-                    <div key={j} style={S.itemRow}>
-                      <div style={{flex:1}}>
-                        <div style={S.itemName}>
-                          {p.nome}
-                          {p.bonus&&<span style={S.bonusBadge}>BONUS</span>}
-                          {p.rtc&&<span style={S.rtcTag}>✂️ RTC</span>}
-                        </div>
-                        <div style={S.itemDetail}>{p.quantita}{p.note?` · ${p.note}`:""}</div>
-                      </div>
-                      <div style={S.itemPrice}>€{p.prezzo_stimato}</div>
+                      {g[tipo].note&&<div style={{fontSize:"10px",color:ORANGE,fontStyle:"italic",marginTop:"3px"}}>→ {g[tipo].note}</div>}
                     </div>
                   ))}
                 </div>
-              ))}
-              <div style={S.totalBar}>
-                <div style={S.totalLabel}>Totale · {days} giorni · {people} persona{people==="1"?"":"e"}</div>
-                <div style={S.totalAmount}>€{result.totale_stimato}</div>
               </div>
-            </div>
+            ))}
+          </div>
 
-            {/* NUTRI */}
-            {result.info_nutrizionali&&(
-              <div style={S.card}>
-                <div style={S.sectionTitle}>🥗 Profilo nutrizionale</div>
-                <div style={{fontSize:"12px",color:GRAY,marginBottom:"6px"}}>
-                  Calorie: <strong style={{color:AH_DARK}}>{result.info_nutrizionali.calorie_giornaliere_stimate} kcal/giorno</strong>
-                </div>
-                <div style={S.nutriRow}>
-                  <div style={S.nutriChip(nc(result.info_nutrizionali.proteine))}>Proteine: {result.info_nutrizionali.proteine}</div>
-                  <div style={S.nutriChip(nc(result.info_nutrizionali.carboidrati))}>Carboidrati: {result.info_nutrizionali.carboidrati}</div>
-                  <div style={S.nutriChip(nc(result.info_nutrizionali.grassi))}>Grassi: {result.info_nutrizionali.grassi}</div>
-                </div>
-                {result.consigli&&<div style={S.consiglio}>💡 {result.consigli}</div>}
+          <div style={S.card}>
+            <div style={{fontSize:"15px",fontWeight:"700",color:AH_DARK,marginBottom:"12px"}}>🛒 Lista della spesa · Albert Heijn</div>
+            {result.lista_spesa.map((cat,i)=>(
+              <div key={i} style={{marginBottom:"16px"}}>
+                <div style={S.catLabel}>{cat.categoria}</div>
+                {cat.prodotti.map((p,j)=>(
+                  <div key={j} style={S.itemRow}>
+                    <div style={{flex:1}}>
+                      <div style={{fontWeight:"600",fontSize:"13px",color:"#1A1A2E"}}>
+                        {p.nome}
+                        {p.bonus&&<span style={{background:ORANGE,color:WHITE,fontSize:"8px",fontWeight:"700",padding:"1px 5px",borderRadius:"6px",marginLeft:"4px"}}>BONUS</span>}
+                        {p.rtc&&<span style={{background:AH_BLUE+"22",color:AH_BLUE,fontSize:"8px",fontWeight:"700",padding:"1px 5px",borderRadius:"6px",marginLeft:"4px"}}>✂️ RTC</span>}
+                      </div>
+                      <div style={{fontSize:"11px",color:GRAY,marginTop:"1px"}}>{p.quantita}{p.note?` · ${p.note}`:""}</div>
+                    </div>
+                    <div style={{fontWeight:"700",color:GREEN,fontSize:"13px",whiteSpace:"nowrap"}}>€{p.prezzo_stimato}</div>
+                  </div>
+                ))}
               </div>
-            )}
-          </>
-        )}
+            ))}
+            <div style={S.totalBar}>
+              <div style={{fontSize:"12px",opacity:0.8}}>Totale · {days} giorni · {people} persona{people==="1"?"":"e"}</div>
+              <div style={{fontSize:"20px",fontWeight:"900"}}>€{result.totale_stimato}</div>
+            </div>
+          </div>
+
+          {result.info_nutrizionali&&(
+            <div style={S.card}>
+              <div style={{fontSize:"15px",fontWeight:"700",color:AH_DARK,marginBottom:"10px"}}>🥗 Profilo nutrizionale</div>
+              <div style={{fontSize:"12px",color:GRAY,marginBottom:"6px"}}>Calorie: <strong style={{color:AH_DARK}}>{result.info_nutrizionali.calorie_giornaliere_stimate} kcal/giorno</strong></div>
+              <div style={{display:"flex",gap:"8px",flexWrap:"wrap"}}>
+                {[["Proteine",result.info_nutrizionali.proteine],["Carboidrati",result.info_nutrizionali.carboidrati],["Grassi",result.info_nutrizionali.grassi]].map(([k,v])=>(
+                  <div key={k} style={{background:nc(v)+"22",color:nc(v),borderRadius:"8px",padding:"3px 9px",fontSize:"10px",fontWeight:"700"}}>{k}: {v}</div>
+                ))}
+              </div>
+              {result.consigli&&<div style={{marginTop:"12px",padding:"11px 13px",background:LIGHT_GRAY,borderRadius:"10px",fontSize:"12px",color:AH_DARK,lineHeight:1.6}}>💡 {result.consigli}</div>}
+            </div>
+          )}
+        </>)}
       </div>
     </div>
   );
 }
-
 const root=ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
 </script>
